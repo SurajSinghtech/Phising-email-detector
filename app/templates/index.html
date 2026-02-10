@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Phishing Email Detector</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f6fa;
+            text-align: center;
+            padding: 50px;
+        }
+        textarea {
+            width: 60%;
+            height: 150px;
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            border: none;
+            background-color: #0984e3;
+            color: white;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #74b9ff;
+        }
+        .result {
+            margin-top: 30px;
+            font-size: 22px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Phishing Email Detector</h1>
+    <form action="/predict" method="POST">
+        <textarea name="email" placeholder="Paste your email text here...">{{ email }}</textarea><br>
+        <button type="submit">Check</button>
+    </form>
+
+    {% if prediction %}
+    <div class="result">{{ prediction }}</div>
+    {% endif %}
+</body>
+</html>
