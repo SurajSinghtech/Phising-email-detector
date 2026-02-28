@@ -4,7 +4,7 @@ import joblib
 import os
 import re
 from sklearn.model_selection import train_test_split
-from sklearn.naive_bayes import MultinomialNB
+from sklearn.svm import LinearSVC
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics import accuracy_score, classification_report
 
@@ -93,17 +93,25 @@ df['features'] = df['email'].apply(extract_features)
 
 # --- Step 4: Split ---
 X_train, X_test, y_train, y_test = train_test_split(
-    df['features'], df['label'], test_size=0.3, random_state=42, stratify=df['label']
+    df['email'],
+    df['label'],
+    test_size=0.2,
+    random_state=42,
+    stratify=df['label']
 )
 
 # --- Step 5: Character-level TF-IDF Vectorization ---
 # Better for short email strings
-vectorizer = TfidfVectorizer(analyzer='char', ngram_range=(3, 6))
+vectorizer = TfidfVectorizer(
+    analyzer='char_wb',
+    ngram_range=(3,6),
+    min_df=2
+)
 X_train_vec = vectorizer.fit_transform(X_train)
 X_test_vec = vectorizer.transform(X_test)
 
 # --- Step 6: Train Model ---
-model = MultinomialNB(alpha=0.1)
+model = LinearSVC(alpha=0.1)
 model.fit(X_train_vec, y_train)
 
 # --- Step 7: Evaluate ---
