@@ -111,7 +111,7 @@ X_train_vec = vectorizer.fit_transform(X_train)
 X_test_vec = vectorizer.transform(X_test)
 
 # --- Step 6: Train Model ---
-model = LinearSVC(alpha=0.1)
+model = LinearSVC()
 model.fit(X_train_vec, y_train)
 
 # --- Step 7: Evaluate ---
@@ -119,6 +119,9 @@ y_pred = model.predict(X_test_vec)
 accuracy = accuracy_score(y_test, y_pred)
 print(f"✅ Accuracy: {accuracy * 100:.2f} %")
 print(classification_report(y_test, y_pred, target_names=["Legit", "Phishing"]))
+print("Accuracy:", accuracy_score(y_test, y_pred))
+print("\nClassification Report:\n")
+print(classification_report(y_test, y_pred))
 
 # --- Step 8: Save Model ---
 joblib.dump(model, 'models/phishing_model.pkl')
